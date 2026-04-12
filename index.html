@@ -39,10 +39,14 @@
 
     iframe {
       border: none;
-      width: 143vw; /* kompensacja dla scale 0.7 */
-      height: 143vh;
+      /* 🔥 poprawne skalowanie BEZ psucia szerokości */
       transform: scale(0.5);
       transform-origin: top left;
+
+      /* dynamiczna kompensacja */
+      width: calc(100vw / 0.5);
+      height: calc(100vh / 0.5);
+
       display: none;
     }
   </style>
