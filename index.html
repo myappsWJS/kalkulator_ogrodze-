@@ -54,13 +54,20 @@
   <iframe id="https://script.google.com/a/macros/leroymerlin.pl/s/AKfycbyCPQolLYpt9neQ669Q48-74_3mlN0jVF8wxqn8N_wFqGquONXxstWah3xizq_piv4_/exec"></iframe>
 
   <script>
-    const iframe = document.getElementById("appFrame");
-    const loader = document.getElementById("loader");
+    document.addEventListener("DOMContentLoaded", () => {
+      const iframe = document.getElementById("appFrame");
+      const loader = document.getElementById("loader");
 
-    iframe.onload = () => {
-      loader.style.display = "none";
-      iframe.style.display = "block";
-    };
+      if (!iframe) {
+        console.error("[PWA] iframe nie znaleziony");
+        return;
+      }
+
+      iframe.onload = () => {
+        loader.style.display = "none";
+        iframe.style.display = "block";
+      };
+    });
   </script>
 
 </body>
