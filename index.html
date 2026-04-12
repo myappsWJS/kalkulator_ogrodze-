@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <title>Kalkulator ogrodzeń</title>
 
@@ -53,18 +53,24 @@
   <div id="loader">Ładowanie aplikacji...</div>
 
   <!-- 🔥 TU WKLEJ SWÓJ LINK APPS SCRIPT -->
-  <iframe id="appFrame" src="https://script.google.com/a/macros/leroymerlin.pl/s/AKfycbyCPQolLYpt9neQ669Q48-74_3mlN0jVF8wxqn8N_wFqGquONXxstWah3xizq_piv4_/exec"></iframe>
+  <iframe id="appFrame" src="https://script.google.com/macros/s/TWOJ_ID/exec"></iframe> <!-- 🔧 PODMIEŃ TWOJ_ID -->
 
   <script>
-    const iframe = document.getElementById("appFrame");
-    const loader = document.getElementById("loader");
+    document.addEventListener("DOMContentLoaded", () => {
+      const iframe = document.getElementById("appFrame");
+      const loader = document.getElementById("loader");
 
-    iframe.onload = () => {
-      loader.style.display = "none";
-      iframe.style.display = "block";
-    };
+      if (!iframe) {
+        console.error("iframe nie znaleziony");
+        return;
+      }
+
+      iframe.onload = () => {
+        loader.style.display = "none";
+        iframe.style.display = "block";
+      };
+    });
   </script>
 
 </body>
 </html>
-
