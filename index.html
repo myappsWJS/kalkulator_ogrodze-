@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Kalkulator ogrodzeń</title>
 
@@ -39,8 +39,8 @@
 
     iframe {
       border: none;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       display: none;
     }
   </style>
@@ -51,12 +51,16 @@
   <div id="loader">Ładowanie aplikacji...</div>
 
   <!-- 🔥 TU WKLEJ SWÓJ LINK APPS SCRIPT -->
-  <!-- 🔥 PRZEKIEROWANIE (iframe blokowany przez Google) -->
+  <iframe id="appFrame" src="https://script.google.com/a/macros/leroymerlin.pl/s/AKfycbyCPQolLYpt9neQ669Q48-74_3mlN0jVF8wxqn8N_wFqGquONXxstWah3xizq_piv4_/exec"></iframe>
+
   <script>
-    // pokaż loader chwilę, potem przekieruj
-    setTimeout(() => {
-      window.location.href = "https://script.google.com/a/macros/leroymerlin.pl/s/AKfycbyCPQolLYpt9neQ669Q48-74_3mlN0jVF8wxqn8N_wFqGquONXxstWah3xizq_piv4_/exec";
-    }, 800);
+    const iframe = document.getElementById("appFrame");
+    const loader = document.getElementById("loader");
+
+    iframe.onload = () => {
+      loader.style.display = "none";
+      iframe.style.display = "block";
+    };
   </script>
 
 </body>
