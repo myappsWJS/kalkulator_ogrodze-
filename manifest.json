@@ -1,7 +1,7 @@
 {
   "name": "Kalkulator ogrodzeń",
   "short_name": "Kalkulator",
-  "start_url": "./index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#1fae4b",
   "theme_color": "#1fae4b",
