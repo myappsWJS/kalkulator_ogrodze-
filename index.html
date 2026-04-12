@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Kalkulator ogrodzeń</title>
 
@@ -39,8 +39,10 @@
 
     iframe {
       border: none;
-      width: 100vw;
-      height: 100vh;
+      width: 143vw; /* kompensacja dla scale 0.7 */
+      height: 143vh;
+      transform: scale(0.7);
+      transform-origin: top left;
       display: none;
     }
   </style>
@@ -65,3 +67,4 @@
 
 </body>
 </html>
+
