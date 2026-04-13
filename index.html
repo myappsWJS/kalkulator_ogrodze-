@@ -63,17 +63,15 @@
   </div>
 
   <!-- 🔥 APPS SCRIPT -->
-  <iframe id="appFrame" src="https://script.google.com/a/macros/leroymerlin.pl/s/AKfycbyCPQolLYpt9neQ669Q48-74_3mlN0jVF8wxqn8N_wFqGquONXxstWah3xizq_piv4_/exec"></iframe>
+  <iframe id="appFrame"></iframe>
 
   <script>
     const iframe = document.getElementById("appFrame");
+    const APP_URL = "https://script.google.com/a/macros/leroymerlin.pl/s/AKfycbyCPQolLYpt9neQ669Q48-74_3mlN0jVF8wxqn8N_wFqGquONXxstWah3xizq_piv4_/exec";
     const loader = document.getElementById("loader");
-
-    let loaded = false;
 
     // iframe loaded
     iframe.onload = () => {
-      loaded = true;
       loader.style.display = "none";
       iframe.style.display = "block";
     };
@@ -90,6 +88,11 @@
           <div style="font-size:14px; opacity:0.8;">menu ⋮ → Zainstaluj aplikację</div>
         </div>
       `;
+
+      // 👉 tylko w przeglądarce ładujemy iframe (bez błędu)
+      setTimeout(() => {
+        iframe.src = APP_URL;
+      }, 300);
     }
 
     // aplikacja → auto start
@@ -101,12 +104,10 @@
         </div>
       `;
 
+      // 👉 bez iframe (eliminuje migający błąd)
       setTimeout(() => {
-        if (!loaded) {
-          console.warn("[PWA] iframe zablokowany – auto redirect");
-          window.location.href = iframe.src;
-        }
-      }, 1200);
+        window.location.href = APP_URL;
+      }, 900);
     }
   </script>
 
