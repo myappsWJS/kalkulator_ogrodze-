@@ -36,6 +36,7 @@
       text-align: center;
       padding: 20px;
       box-sizing: border-box;
+      transition: opacity 0.3s ease;
     }
 
     #loader img {
@@ -72,7 +73,8 @@
 
     // iframe loaded
     iframe.onload = () => {
-      loader.style.display = "none";
+      loader.style.opacity = "0";
+      setTimeout(() => loader.style.display = "none", 300);
       iframe.style.display = "block";
     };
 
@@ -127,30 +129,18 @@
     });
 
     // fallback jeśli event się nie pojawi
-    if (!isStandalone && isMobile && !deferredPrompt) {
-      loader.innerHTML = `
-        <div>
-          <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
-          <div style="margin-bottom:10px; font-size:18px;">Dla poprawnego działania</div>
-          <div style="margin-bottom:15px;">zainstaluj aplikację</div>
-          <div style="font-size:14px; opacity:0.8;">menu ⋮ → Zainstaluj aplikację</div>
-        </div>
-      `;
-    }
-
-    // 💻 DESKTOP → przekierowanie (iframe blokowany przez Google)
-    if (!isStandalone && !isMobile) {
-      loader.innerHTML = `
-        <div>
-          <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
-          <div>Uruchamiam aplikację...</div>
-        </div>
-      `;
-
-      setTimeout(() => {
-        window.location.href = APP_URL;
-      }, 800);
-    }
+    setTimeout(() => {
+      if (!isStandalone && isMobile && !deferredPrompt) {
+        loader.innerHTML = `
+          <div>
+            <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
+            <div style="margin-bottom:10px; font-size:18px;">Dla poprawnego działania</div>
+            <div style="margin-bottom:15px;">zainstaluj aplikację</div>
+            <div style="font-size:14px; opacity:0.8;">menu ⋮ → Zainstaluj aplikację</div>
+          </div>
+        `;
+      }
+    }, 1500);
 
     // aplikacja → auto start
     if (isStandalone) {
