@@ -78,8 +78,10 @@
 
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    // skrót → pokaż instrukcję
-    if (!isStandalone) {
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+    // 📱 MOBILE (przeglądarka) → pokaż instrukcję instalacji
+    if (!isStandalone && isMobile) {
       loader.innerHTML = `
         <div>
           <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
@@ -89,10 +91,26 @@
         </div>
       `;
 
-      // 👉 tylko w przeglądarce ładujemy iframe (bez błędu)
+      // 👉 NIE ładujemy iframe od razu (unikamy błędu)
+      // dajemy użytkownikowi czas na instalację
+      setTimeout(() => {
+        // opcjonalnie można przekierować po dłuższym czasie
+        // window.location.href = APP_URL;
+      }, 5000);
+    }
+
+    // 💻 DESKTOP → normalne działanie (bez instalacji)
+    if (!isStandalone && !isMobile) {
+      loader.innerHTML = `
+        <div>
+          <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
+          <div>Uruchamiam aplikację...</div>
+        </div>
+      `;
+
       setTimeout(() => {
         iframe.src = APP_URL;
-      }, 300);
+      }, 200);
     }
 
     // aplikacja → auto start
