@@ -10,9 +10,6 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1fae4b">
 
-  <!-- iOS fallback -->
-  <link rel="apple-touch-icon" href="icon-192.png">
-
   <style>
     html, body {
       margin: 0;
@@ -40,12 +37,12 @@
     iframe {
       border: none;
       /* 🔥 poprawne skalowanie BEZ psucia szerokości */
-      transform: scale(0.4);
+      transform: scale(0.7);
       transform-origin: top left;
 
       /* dynamiczna kompensacja */
-      width: calc(100vw / 0.4);
-      height: calc(100vh / 0.4);
+      width: calc(100vw / 0.7);
+      height: calc(100vh / 0.7);
 
       display: none;
     }
@@ -63,10 +60,22 @@
     const iframe = document.getElementById("appFrame");
     const loader = document.getElementById("loader");
 
+    let loaded = false;
+
+    // jeśli iframe się załaduje poprawnie
     iframe.onload = () => {
+      loaded = true;
       loader.style.display = "none";
       iframe.style.display = "block";
     };
+
+    // 🔥 fallback – jeśli iframe zablokowany (SSO / X-Frame-Options)
+    setTimeout(() => {
+      if (!loaded) {
+        console.warn("[PWA] iframe zablokowany – przekierowanie");
+        window.location.href = iframe.src;
+      }
+    }, 1500);
   </script>
 
 </body>
