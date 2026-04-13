@@ -69,13 +69,29 @@
       iframe.style.display = "block";
     };
 
-    // 🔥 fallback – jeśli iframe zablokowany (SSO / X-Frame-Options)
-    setTimeout(() => {
-      if (!loaded) {
-        console.warn("[PWA] iframe zablokowany – przekierowanie");
-        window.location.href = iframe.src;
-      }
-    }, 1500);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    // 🔥 fallback tylko w aplikacji
+    if (isStandalone) {
+      setTimeout(() => {
+        if (!loaded) {
+          console.warn("[PWA] iframe zablokowany – pokazuję przycisk");
+
+          loader.innerHTML = `
+            <div style="text-align:center; padding:20px;">
+              <div style="margin-bottom:15px;">Nie udało się uruchomić aplikacji</div>
+              <button id="openAppBtn" style="padding:10px 20px; font-size:16px; cursor:pointer;">
+                Otwórz aplikację
+              </button>
+            </div>
+          `;
+
+          document.getElementById("openAppBtn").onclick = () => {
+            window.location.href = iframe.src;
+          };
+        }
+      }, 1500);
+    }
   </script>
 
 </body>
