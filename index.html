@@ -81,28 +81,61 @@
     const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
     // 📱 MOBILE (przeglądarka) → pokaż instrukcję instalacji
-    if (!isStandalone && isMobile) {
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      loader.innerHTML = `
+        <div>
+          <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
+          <div style="margin-bottom:10px; font-size:18px;">Zainstaluj aplikację</div>
+          <div style="margin-bottom:15px; font-size:14px; opacity:0.9;">dla najlepszego działania</div>
+          <div style="font-size:14px; opacity:0.8; margin-bottom:20px;">kliknij poniżej</div>
+          <button id="installBtn" style="padding:10px 20px; font-size:16px; cursor:pointer;">
+            Zainstaluj
+          </button>
+        </div>
+      `;
+
+      setTimeout(() => {
+        const btn = document.getElementById("installBtn");
+        if (btn) {
+          btn.onclick = async () => {
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              const choice = await deferredPrompt.userChoice;
+
+              if (choice.outcome === 'accepted') {
+                loader.innerHTML = `
+                  <div>
+                    <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
+                    <div>Aplikacja zainstalowana</div>
+                    <div style="font-size:14px; opacity:0.8; margin-top:10px;">
+                      Uruchom ją z ekranu głównego
+                    </div>
+                  </div>
+                `;
+              }
+
+              deferredPrompt = null;
+            }
+          };
+        }
+      }, 100);
+    });
+
+    // fallback jeśli event się nie pojawi
+    if (!isStandalone && isMobile && !deferredPrompt) {
       loader.innerHTML = `
         <div>
           <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
           <div style="margin-bottom:10px; font-size:18px;">Dla poprawnego działania</div>
           <div style="margin-bottom:15px;">zainstaluj aplikację</div>
-          <div style="font-size:14px; opacity:0.8; margin-bottom:20px;">menu ⋮ → Zainstaluj aplikację</div>
-          <button id="closeBtn" style="padding:10px 20px; font-size:16px; cursor:pointer;">
-            Zamknij przeglądarkę i uruchom aplikację
-          </button>
+          <div style="font-size:14px; opacity:0.8;">menu ⋮ → Zainstaluj aplikację</div>
         </div>
       `;
-
-      // przycisk (nie zamknie przeglądarki, ale pomoże UX)
-      setTimeout(() => {
-        const btn = document.getElementById("closeBtn");
-        if (btn) {
-          btn.onclick = () => {
-            window.location.href = APP_URL;
-          };
-        }
-      }, 100);
     }
 
     // 💻 DESKTOP → przekierowanie (iframe blokowany przez Google)
