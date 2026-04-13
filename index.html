@@ -87,19 +87,25 @@
           <img src="icon-192.png" alt="logo" style="width:70px; margin-bottom:15px;">
           <div style="margin-bottom:10px; font-size:18px;">Dla poprawnego działania</div>
           <div style="margin-bottom:15px;">zainstaluj aplikację</div>
-          <div style="font-size:14px; opacity:0.8;">menu ⋮ → Zainstaluj aplikację</div>
+          <div style="font-size:14px; opacity:0.8; margin-bottom:20px;">menu ⋮ → Zainstaluj aplikację</div>
+          <button id="closeBtn" style="padding:10px 20px; font-size:16px; cursor:pointer;">
+            Zamknij przeglądarkę i uruchom aplikację
+          </button>
         </div>
       `;
 
-      // 👉 NIE ładujemy iframe od razu (unikamy błędu)
-      // dajemy użytkownikowi czas na instalację
+      // przycisk (nie zamknie przeglądarki, ale pomoże UX)
       setTimeout(() => {
-        // opcjonalnie można przekierować po dłuższym czasie
-        // window.location.href = APP_URL;
-      }, 5000);
+        const btn = document.getElementById("closeBtn");
+        if (btn) {
+          btn.onclick = () => {
+            window.location.href = APP_URL;
+          };
+        }
+      }, 100);
     }
 
-    // 💻 DESKTOP → normalne działanie (bez instalacji)
+    // 💻 DESKTOP → przekierowanie (iframe blokowany przez Google)
     if (!isStandalone && !isMobile) {
       loader.innerHTML = `
         <div>
@@ -109,8 +115,8 @@
       `;
 
       setTimeout(() => {
-        iframe.src = APP_URL;
-      }, 200);
+        window.location.href = APP_URL;
+      }, 800);
     }
 
     // aplikacja → auto start
